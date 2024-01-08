@@ -58,10 +58,10 @@ python main.py query
 ```
 ## Demo
 ![Alt text](<CleanShot 2567-01-08 at 12.02.08.gif>)
-##Saving Results
+## Saving Results
 You can choose to save the results as a CSV file during the query process. The CSV files will be named with a timestamp.
 ![Alt text](<CleanShot 2567-01-08 at 12.26.02@2x.png>)
-##Configuration
+## Configuration
 You can modify the configuration in the setup.json file to customize your settings.
 
 License
