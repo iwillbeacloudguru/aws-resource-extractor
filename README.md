@@ -30,6 +30,10 @@ Before using this application, ensure that you have the following prerequisites 
     ``` Python
     python -m venv .env && source .env/bin/activate
     ```
+3. Install required packages in virtual environment.
+    ``` Python
+    pip install -r requirements.txt
+    ```
 4. Configure AWS CLI
     https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
 
