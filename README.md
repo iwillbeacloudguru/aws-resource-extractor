@@ -28,7 +28,7 @@ Before using this application, ensure that you have the following prerequisites 
     ```
 3. Create and activate virtual environment.
     ``` Python
-    python -m venv .env && source .env/bin/activate
+    virtualenv -p python3.9 .env && source .env/bin/activate
     ```
 3. Install required packages in virtual environment.
     ``` Python
