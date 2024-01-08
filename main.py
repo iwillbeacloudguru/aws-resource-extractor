@@ -149,10 +149,10 @@ def resource_query(resource_list, view_arn, AWSProfile):
             else:
                 items = pd.DataFrame(response['Resources'], columns = ['Arn', 'LastReportedAt', 'OwningAccountId', 'Properties', 'Region', 'ResourceType', 'Service'])
                 # resource = pd.DataFrame(columns = ['Arn', 'LastReportedAt', 'OwningAccountId', 'Properties', 'Region', 'ResourceType', 'Service'])
-                print("================================")
-                print(items.dtypes)
+                # print("================================")
+                # print(items.dtypes)
                 # print(resource.dtypes)
-                print("================================")
+                # print("================================")
                 # resource = resource.append(resource, ignore_index = True)
                 tmp = pd.concat([tmp, items], ignore_index=True)
                 # print(resource)
@@ -162,7 +162,7 @@ def resource_query(resource_list, view_arn, AWSProfile):
             print('Could not find resource.')
         # tmp = tmp.drop_duplicates(subset=['Arn'], keep='last')
         print(resource + ": Completed")
-        print("\n.")
+        print("\n")
     tmp = tmp.drop_duplicates(subset=['Arn'], keep='last')
     save_to_csv(timestamp, tmp)
                 
