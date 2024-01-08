@@ -41,9 +41,9 @@ Before using this application, ensure that you have the following prerequisites 
     https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html
     <i>Note: Please note your AWS profile in cli that you want to use.</i>
 
-##Usage
+## Usage
 
-###Initialization
+### Initialization
 To start using the application, run the following command:
 
 ``` bash
@@ -51,12 +51,12 @@ python main.py init
 ```
 Follow the prompts to select an AWS profile and set up your configuration.
 
-###Querying Resources
+### Querying Resources
 To query AWS resources, run the following command:
 ``` bash
 python main.py query
 ```
-##Demo
+## Demo
 ![Alt text](<CleanShot 2567-01-08 at 12.02.08.gif>)
 ##Saving Results
 You can choose to save the results as a CSV file during the query process. The CSV files will be named with a timestamp.
@@ -68,14 +68,14 @@ License
 Porames J.
 <!-- This application is open-source and available under the MIT License. -->
 
-###Disclaimer
+### Disclaimer
 
 This application is provided as-is without any warranties. Use it at your own risk, and always follow AWS best practices and security guidelines.
 
-###Acknowledgments
+### Acknowledgments
 
 Special thanks to the libraries and tools used in this application, including PyInquirer, boto3, botocore, click, tqdm, and pandas.
 
-###Contact
+### Contact
 
 For any questions or feedback, please contact PJ at porames.jari@gmail.com.
