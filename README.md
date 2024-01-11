@@ -44,19 +44,19 @@ Before using this application, ensure that you have the following prerequisites 
     <br />
 5. Configure AWS CLI
     https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
-    <br />
+<br />
 6. Set up the AWS CLI
     https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html
-   <br />
+<br />
     <i>Note: Please note your AWS profile in cli that you want to use.</i>
-    <br />
-8. Turn on Resource Explorer. <b>Repeat this step in every account.</b></br >
+<br />
+7. Turn on Resource Explorer. <b>Repeat this step in every account.</b></br >
     ![Alt text](<assets/CleanShot 2567-01-11 at 19.42.23@2x.png>)
     ![Alt text](<assets/CleanShot 2567-01-11 at 19.43.55@2x.png>)
     ![Alt text](<assets/CleanShot 2567-01-11 at 19.47.50@2x.png>)
     ![Alt text](<assets/CleanShot 2567-01-11 at 19.50.05@2x.png>)
     <br />
-9. Create IAM Role for script to assume. <b>Repeat this step in every account.</b></br >
+8. Create IAM Role for script to assume. <b>Repeat this step in every account.</b></br >
     ![Alt text](<assets/CleanShot 2567-01-11 at 19.51.49@2x.png>)
     ![Alt text](<assets/CleanShot 2567-01-11 at 19.52.57@2x.png>)
     ![Alt text](<assets/CleanShot 2567-01-11 at 19.53.48@2x.png>)
