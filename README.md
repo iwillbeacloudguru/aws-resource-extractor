@@ -82,22 +82,27 @@ To query AWS resources, run the following command:
 python3 main.py query
 ```
 <br />
+
 ## Demo
 ![Alt text](<assets/CleanShot 2567-01-08 at 12.02.08.gif>)
 <br />
+
 ## Saving Results
 You can choose to save the results as a CSV file during the query process. The CSV files will be named with a timestamp.
 ![Alt text](<assets/CleanShot 2567-01-08 at 12.26.02@2x.png>)
 <br />
+
 ## Configuration
 You can modify the configuration in the setup.json file to customize your settings.
 License
 Porames J.
 <!-- This application is open-source and available under the MIT License. -->
 <br />
+
 ### Disclaimer
 This application is provided as-is without any warranties. Use it at your own risk, and always follow AWS best practices and security guidelines.
 <br />
+
 ### Acknowledgments
 
 Special thanks to the libraries and tools used in this application, including PyInquirer, boto3, botocore, click, tqdm, and pandas.
