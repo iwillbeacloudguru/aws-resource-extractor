@@ -4,10 +4,11 @@ from examples import custom_style_2
 import boto3
 import botocore
 import click
-# import time
 from datetime import datetime
 import json
 import pandas as pd
+import concurrent.futures
+from time import perf_counter
 
 def start_session(AWSProfile, account):
     try:
@@ -31,14 +32,6 @@ def start_session(AWSProfile, account):
             print("- CLI profile name")
         else:
             raise
-        
-    # try:
-    #     boto3.setup_default_session(profile_name=AWSProfile)
-    #     client = boto3.client('organizations')
-    #     response = client.list_accounts()
-    #     return response['Accounts']
-    # except botocore.exceptions.ClientError as e:
-    #     raise
 
 def list_org_accounts(AWSProfile):
     boto3.setup_default_session(profile_name=AWSProfile)
@@ -56,13 +49,6 @@ def list_org_accounts(AWSProfile):
         accounts += [account['Id']]
         account_choices += [{'name': account['Id']}]
     return {"account_choices": account_choices, "accounts": accounts}
-
-# def list_view(account):
-#     client = start_session("", account)
-#     try:
-#         return client.list_views()
-#     except botocore.exceptions.ClientError as e:
-#         raise
 
 def create_view(account):
     client = start_session("", account)
@@ -165,13 +151,15 @@ def query():
         with open('setup.json', 'r') as openfile:
             view_arn = json.load(openfile)
         if "ALL" in answers['resourcesQuery?']:
+            t1_start = perf_counter()
             for account in jd['accounts']:
                 print("\n\nStart account " + account + " query.\n")
                 tmp = resource_query(services, view_arn, AWSProfile, account)
                 total = pd.concat([total, tmp], ignore_index=True, verify_integrity=True, axis=0)
                 print("====================================")
             total = total.drop_duplicates(subset=['Arn'], keep='last')
-            # print(total)
+            t1_stop = perf_counter()
+            print("Elapsed time during the query in seconds:", int(t1_stop-t1_start))
             save_to_csv(datetime.now(), total)
         else:
             exit()
@@ -180,29 +168,37 @@ def query():
     exit()
     
 def resource_query(resource_list, view_arn, AWSProfile, account):
-    # timestamp = time.strftime("%Y%m%d-%H%M%S")
     tmp = pd.DataFrame(columns = ['Arn', 'LastReportedAt', 'OwningAccountId', 'Properties', 'Region', 'ResourceType', 'Service'])
-    re2_client = start_session(AWSProfile, account).client('resource-explorer-2')
     view = ""
     for arn in view_arn['view_arn']:
         if arn.startswith("arn:aws:resource-explorer-2:ap-southeast-1:" + str(account) + ":view/all-resources/"):
             view = arn
         else:
             pass
-    for resource in resource_list:
-        response = re2_client.search(QueryString=resource, ViewArn=view)
-        try:
-            if response['Resources'] == []:
-                pass
-            else:
-                items = pd.DataFrame(response['Resources'], columns = ['Arn', 'LastReportedAt', 'OwningAccountId', 'Properties', 'Region', 'ResourceType', 'Service'])
-                tmp = pd.concat([tmp, items], ignore_index=True, verify_integrity=True, axis=0)
-        except ValueError as e:
-            print('Could not find resource.')
-        print(resource + ": Completed")
+    # rl_1, rl_2 = resource_list[::2], resource_list[1::2]
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        results = [executor.submit(task_wrapper, args=(resource, view, AWSProfile, account)) for resource in resource_list]
+        for future in concurrent.futures.as_completed(results):
+            result = future.result()
+            # print(result)
+            try:
+                if result['Resources'] == []:
+                    pass
+                else:
+                    items = pd.DataFrame(result['Resources'], columns = ['Arn', 'LastReportedAt', 'OwningAccountId', 'Properties', 'Region', 'ResourceType', 'Service'])
+                    tmp = pd.concat([tmp, items], ignore_index=True, verify_integrity=True, axis=0)
+            except ValueError as e:
+                print('Could not find resource.')
     return tmp
-    # save_to_csv(timestamp, tmp)
-                
+
+def task(resource, view, AWSProfile, account):
+    re2_client = start_session(AWSProfile, account).client('resource-explorer-2')
+    print(resource + ": Completed")
+    return re2_client.search(QueryString=resource, ViewArn=view)
+
+def task_wrapper(args):
+    return task(*args)
+
 def save_to_csv(timestamp, df):
     df.to_csv(str(timestamp) + '.csv', mode='a', index=False, header=True)
 
