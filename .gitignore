@@ -212,3 +212,5 @@ cython_debug/
 *.csv
 *.xlsx
 *.json
+
+test.py
