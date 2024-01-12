@@ -8,6 +8,7 @@ import click
 from datetime import datetime
 import json
 import pandas as pd
+from time import perf_counter
 
 def start_session(AWSProfile, account):
     try:
@@ -165,11 +166,14 @@ def query():
         with open('setup.json', 'r') as openfile:
             view_arn = json.load(openfile)
         if "ALL" in answers['resourcesQuery?']:
+            t1_start = perf_counter()
             for account in jd['accounts']:
                 print("\n\nStart account " + account + " query.\n")
                 tmp = resource_query(services, view_arn, AWSProfile, account)
                 total = pd.concat([total, tmp], ignore_index=True, verify_integrity=True, axis=0)
                 print("====================================")
+            t1_stop = perf_counter()
+            print("Elapsed time during the query in seconds:", int(t1_stop-t1_start), "s")
             total = total.drop_duplicates(subset=['Arn'], keep='last')
             # print(total)
             save_to_csv(datetime.now(), total)
