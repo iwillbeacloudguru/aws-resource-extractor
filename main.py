@@ -11,7 +11,6 @@ import logging
 warnings.simplefilter(action='ignore', category=FutureWarning)
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 import concurrent.futures
-from time import perf_counter
 
 def start_session(AWSProfile, account):
     try:
@@ -163,6 +162,8 @@ def query():
                 tmp = resource_query(services, view_arn, AWSProfile, account, worker)
                 total = pd.concat([total, tmp], ignore_index=True, verify_integrity=True, axis=0)
                 print("====================================")
+            t1_stop = perf_counter()
+            print("Elapsed time during the query in seconds:", int(t1_stop-t1_start), "s")
             total = total.drop_duplicates(subset=['Arn'], keep='last')
             t1_stop = perf_counter()
             print("Elapsed time during the query in seconds:", int(t1_stop-t1_start))
